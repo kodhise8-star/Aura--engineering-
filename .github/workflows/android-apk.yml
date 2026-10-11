@@ -1,18 +1,4 @@
-name: Build AURA Android APK
-
-on:
-workflow_dispatch:
-push:
-branches: [main, master]
-
-jobs:
-build:
-runs-on: ubuntu-latest
-steps:
-- name: Checkout source
-uses: actions/checkout@v4
-
-  - name: Set up Java
+ - name: Set up Java
     uses: actions/setup-java@v4
     with:
       distribution: temurin
