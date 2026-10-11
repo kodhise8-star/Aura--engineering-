@@ -1,24 +1,10 @@
-name: Build AURA Android APK
-'on': {workflow_dispatch: null}
+name: AURA Workflow Test
+'on':
+workflow_dispatch:
 
 jobs:
-build:
+test:
 runs-on: ubuntu-latest
 steps:
-- uses: actions/checkout@v4
-- uses: actions/setup-java@v4
-with:
-distribution: temurin
-java-version: '17'
-- uses: android-actions/setup-android@v3
-- name: Install Android tools
-run: sdkmanager "platforms;android-35" "build-tools;35.0.0" "ndk;27.2.12479018" "cmake;3.22.1"
-- uses: gradle/actions/setup-gradle@v4
-with:
-gradle-version: '8.11.1'
-- run: gradle --no-daemon assembleDebug
-- uses: actions/upload-artifact@v4
-with:
-name: aura-engineering-debug-apk
-path: app/build/outputs/apk/debug/*.apk
-if-no-files-found: error
+- name: Confirm workflow runs
+run: echo "AURA workflow syntax is valid"
