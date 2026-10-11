@@ -1,10 +1,10 @@
 name: AURA Workflow Test
 'on':
-workflow_dispatch: {}
+  workflow_dispatch: {}
 
 jobs:
-test:
-runs-on: ubuntu-latest
-steps:
-- name: Confirm workflow runs
-run: echo "AURA workflow syntax is valid"
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Confirm workflow runs
+        run: echo "AURA workflow syntax is valid"
