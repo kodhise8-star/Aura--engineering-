@@ -1,0 +1,42 @@
+name: Build AURA APK
+
+on:
+workflow_dispatch:
+
+jobs:
+build:
+runs-on: ubuntu-latest
+steps:
+- name: Checkout source
+uses: actions/checkout@v4
+
+  - name: Set up Java
+    uses: actions/setup-java@v4
+    with:
+      distribution: temurin
+      java-version: '17'
+
+  - name: Set up Android SDK
+    uses: android-actions/setup-android@v3
+
+  - name: Install build tools
+    run: sdkmanager "platforms;android-35" "build-tools;35.0.0" "ndk;27.2.12479018" "cmake;3.22.1"
+
+  - name: Build APK
+    run: |
+      if [ -f app/build.gradle.kts ]; then
+        gradle --no-daemon assembleDebug
+      elif [ -f build.gradle.kts ] && grep -q 'com.android.application' build.gradle.kts; then
+        echo "Android project files are in the wrong locations. The app module must be moved into app/ before building."
+        exit 1
+      else
+        echo "Android project configuration not found."
+        exit 1
+      fi
+
+  - name: Upload APK
+    if: success()
+    uses: actions/upload-artifact@v4
+    with:
+      name: AURA-debug-APK
+      path: app/build/outputs/apk/debug/*.apk
